@@ -6,6 +6,10 @@ p {
   display: inline-block;
 }
 
+span {
+  padding: 0.25em;
+}
+
 span.key {
   font-weight: bold;
 }
@@ -18,4 +22,7 @@ span.value:hover {
 }
 .results {
   position: relative;
+}
+.bracket:hover {
+  background: greenyellow;
 }
