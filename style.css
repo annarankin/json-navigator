@@ -12,6 +12,10 @@ span {
 
 span.key {
   font-weight: bold;
+  color: blue;
+}
+span.value {
+  color: maroon;
 }
 
 span.key:hover {
@@ -22,6 +26,10 @@ span.value:hover {
 }
 .results {
   position: relative;
+}
+.bracket {
+  font-weight: bold;
+  color: green;
 }
 .bracket:hover {
   background: greenyellow;
