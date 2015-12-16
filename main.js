@@ -1,36 +1,3 @@
-var exampleObj1 = {
-  name: "Anna",
-  age: 1,
-  friends: [
-    "billy",
-    "bob",
-    "joe"
-  ]
-};
-
-var exampleObj2 = {
-  "glossary": {
-    "title": "example glossary",
-    "GlossDiv": {
-      "title": "S",
-      "GlossList": {
-        "GlossEntry": {
-          "ID": "SGML",
-          "SortAs": "SGML",
-          "GlossTerm": "Standard Generalized Markup Language",
-          "Acronym": "SGML",
-          "Abbrev": "ISO 8879:1986",
-          "GlossDef": {
-            "para": "A meta-markup language, used to create markup languages such as DocBook.",
-            "GlossSeeAlso": ["GML", "XML"]
-          },
-          "GlossSee": "markup"
-        }
-      }
-    }
-  }
-}
-
 
 // Function 
 var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
@@ -159,6 +126,19 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
 
 var addBracketPairListeners = function() {
   var $allBrackets = $(".bracket");
+  $allBrackets.each(function(idx, bracket) {
+    $(bracket).on('mouseenter', function(event){
+      var bracketClass = $(event.target).attr("class").split(' ')[1]
+      var $matchingBrackets = $("." + bracketClass);
+      $matchingBrackets.addClass('highlighted');
+      console.log($matchingBrackets);
+    });
+    $(bracket).on('mouseleave', function(event){
+      var bracketClass = $(event.target).attr("class").split(' ')[1]
+      var $matchingBrackets = $("." + bracketClass)
+      $matchingBrackets.removeClass('highlighted');
+    });
+  });
 };
 
 $(document).ready(function() {
