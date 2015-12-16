@@ -33,13 +33,22 @@ var exampleObj2 = {
 
 
 // Function 
-var displayObjectDom = function displayObjectDom($target, parent, offset, top, counter) {
+var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
   var parent = parent || "root";
-  var offset = offset || 10;
+  var offset = offset || 20;
   var top = top || 10;
-  var counter = counter || 0;
+  var bracketCounter = bracketCounter || 0;
+  var lineCounter = 1;
   var $target = $target || $(document.body);
   var lineHeight = 25;
+  var addLineNum = function(lineNum) {
+    var $lineNumPTag = $('<p class="line-num">');
+    $lineNumPTag.text(lineNum.toString());
+    $lineNumPTag.css({position: "absolute"});
+    $lineNumPTag.offset({top: top, left: 5});
+    $target.append($lineNumPTag);
+    return lineNum += 1;
+  };
 
   var displayObject = function(obj, parent) {
     // If the "obj" argument is not an object, just display it as a key/value pair.
@@ -55,12 +64,13 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         left: offset
       });
       $target.append($displayParagraph);
+      lineCounter = addLineNum(lineCounter);
     // Otherwise, if it's an array, indent and loop through it, 
     // displaying everything inside. 
     } else if (Array.isArray(obj)) {
 
-      var bracketId = counter;
-      counter++;
+      var bracketId = bracketCounter;
+      bracketCounter++;
 
       var $beginBracket = $('<p>');
       $beginBracket.html("<span class='key'>" + parent + '</span>: <span class="bracket ' + bracketId + '">[</span>');
@@ -71,8 +81,9 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         top: top,
         left: offset
       });
-      console.log($beginBracket);
       $target.append($beginBracket);
+      lineCounter = addLineNum(lineCounter);
+
       offset += lineHeight;
       top += lineHeight;
 
@@ -81,7 +92,11 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
       });
 
       var $endBracket = $('<p>');
-      $endBracket.html('<span class="bracket ' + bracketId + '">]</span>');
+      if (bracketId != 0) {
+        $endBracket.html('<span class="bracket ' + bracketId + '">],</span>');
+      } else {
+        $endBracket.html('<span class="bracket ' + bracketId + '">]</span>');
+      }
       $endBracket.css({
         position: "absolute"
       });
@@ -90,14 +105,14 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         left: offset - lineHeight
       });
 
-      console.log($endBracket);
       $target.append($endBracket);
       offset -= lineHeight;
+      lineCounter = addLineNum(lineCounter);
 
     // If obj is actually a JS object, display each key-value pair.
     } else if (typeof obj === "object") {
-      var bracketId = counter;
-      counter++;
+      var bracketId = bracketCounter;
+      bracketCounter++;
 
       var $beginBracket = $('<p>');
       $beginBracket.html("<span class='key'>" + parent + '</span>: <span class="bracket ' + bracketId + '">{</span>');
@@ -108,8 +123,9 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         top: top,
         left: offset
       });
-      console.log($beginBracket);
       $target.append($beginBracket);
+      lineCounter = addLineNum(lineCounter);
+
       offset += lineHeight;
       top += lineHeight;
 
@@ -119,7 +135,11 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         displayObject(obj[key], key);
       });
       var $endBracket = $('<p>');
-      $endBracket.html('<span class="bracket ' + bracketId + '">}</span>');
+      if (bracketId != 0) {
+        $endBracket.html('<span class="bracket ' + bracketId + '">},</span>');
+      } else {
+        $endBracket.html('<span class="bracket ' + bracketId + '">}</span>');
+      }
       $endBracket.css({
         position: "absolute"
       });
@@ -127,8 +147,9 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
         top: top,
         left: offset - lineHeight
       });
-      console.log($endBracket);
       $target.append($endBracket);
+      lineCounter = addLineNum(lineCounter);
+
       offset -= lineHeight;
     }
     top += lineHeight;
@@ -136,12 +157,13 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top, c
   return displayObject;
 }
 
-var addBracketPairListeners = function() {};
+var addBracketPairListeners = function() {
+  var $allBrackets = $(".bracket");
+};
 
 $(document).ready(function() {
   $('button').on('click', function() {
     objToDisplay = JSON.parse($('#json-input').val());
-    console.log(objToDisplay);
     displayObjectDom($('.results'))(objToDisplay, "root");
     addBracketPairListeners();
   })

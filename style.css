@@ -34,3 +34,12 @@ span.value:hover {
 .bracket:hover {
   background: greenyellow;
 }
+.line-num {
+  color: #777;
+}
+.results {
+  background-color: #DDD;
+  width: 800px;
+  height: 500px;
+  overflow:scroll;
+}
