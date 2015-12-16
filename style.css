@@ -1,0 +1,21 @@
+body {
+  font-family: Courier;
+}
+
+p {
+  display: inline-block;
+}
+
+span.key {
+  font-weight: bold;
+}
+
+span.key:hover {
+  background: aqua;
+}
+span.value:hover {
+  background: salmon;
+}
+.results {
+  position: relative;
+}
