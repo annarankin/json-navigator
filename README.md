@@ -16,6 +16,8 @@ This program is intended as a tool to help students learn to navigate nested dat
 #### Additional Features
 
 - A tooltip is displayed when a user hovers over a bracket with the line number of the other bracket it's paired with.
+- Allow users to input valid JS code to be parsed
+- Allow users to input valid Ruby code to be parsed
 
 #### Refactor
 
