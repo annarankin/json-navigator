@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>JSON Navigator</title>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
   <script src="main_v2.js"></script>
@@ -17,7 +17,18 @@
       <p>This is a tool designed to help students and novice programmers learn to navigate nested data structures - in particular, how to access information from a parsed JSON object returned from an API call.</p>
       <p>Try clicking on the <span class="red">values</span> in the example to the right - you should see the chain of index values/properties needed to access this data displayed in the black text box below.</p>
 
-      <textarea name="json-input" id="json-input" rows="10">{"example": ["thing", "another thing"], "wow": "so cool."}</textarea>
+      <radiogroup id="output-format"> 
+        <div>
+          <label for="render-js">Render output as JS</label>
+          <input name="output-format" type="radio" id="render-js" checked>
+        </div>
+        <div>
+          <label for="render-ruby">Render output as Ruby</label>
+          <input name="output-format" type="radio" id="render-ruby">
+        </div>
+      </radiogroup> 
+
+      <textarea name="json-input" id="json-input" rows="5">{"example": ["thing", "another thing"], "wow": "so cool."}</textarea>
       <button>Render Interactive JSON</button>
     </div>
   

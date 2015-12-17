@@ -4,7 +4,7 @@ body {
 }
 .wrapper {
   display:flex;
-  height: 90vh;
+  height: 85vh;
 }
 .input {
   box-sizing: border-box;
@@ -74,7 +74,7 @@ span.value:hover {
 .information {
   background-color: #000;
   position: fixed;
-  height: 10vh;
+  height: 15vh;
   width: 100%;
   bottom: 0;
   display: flex;
@@ -85,6 +85,7 @@ span.value:hover {
   color: #fff;
   padding: 1em;
   padding-left: 20px;
+  font-size: 1.5em;
 }
 #notice {
   display: none;
@@ -98,3 +99,19 @@ span.value:hover {
   background-color: salmon;
   padding: 0.125em;
 }
+
+#output-format {
+  display: flex;
+}
+
+#output-format > * {
+  display: block;
+  text-align: center;
+  border: 1px solid #CCC;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+/* To do: Media querz */
+
+
+

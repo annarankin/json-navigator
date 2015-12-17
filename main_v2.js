@@ -194,18 +194,25 @@ var displayMsg = function(msg) {
   }, 2000);
 };
 
-$(document).ready(function() {
-  $('button').on('click', function(e) {
+var renderInput = function(e) {
+  try {
     var objToDisplay = JSON.parse($('#json-input').val());
-    renderInteractiveJSON($('.results'))(objToDisplay, "data");
-    addBracketPairListeners();
-    addValueListeners();
-  });
-  var objToDisplay = JSON.parse($('#json-input').val());
+  }
+  catch (e) {
+    displayMsg("Uh-oh! Invalid input: " + e);
+  }
   renderInteractiveJSON($('.results'))(objToDisplay, "data");
   addBracketPairListeners();
   addValueListeners();
+};
 
+$(document).ready(function() {
+  // Render JSON when button is clickt
+  $('button').on('click', renderInput)
+  // Start off by rendering out example JSON
+  renderInput();
+
+  // Copy code to user's clipboard when values are clicked
   var clipboard = new Clipboard('.value', {
     text: function(trigger) {
       return $('#output').text();
