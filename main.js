@@ -1,5 +1,5 @@
 // Function 
-var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
+var renderInteractiveJSON = function renderInteractiveJSON($target, parent, offset, top) {
   var parent = parent || "root";
   var offset = offset || 40;
   var top = top || 10;
@@ -109,6 +109,7 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
     }
     top += lineHeight;
   };
+  $target.empty();
   return displayObject;
 }
 
@@ -130,11 +131,9 @@ var addBracketPairListeners = function() {
 };
 
 $(document).ready(function() {
-  $('button').on('click', function() {
+  $('button').on('click', function(e) {
       objToDisplay = JSON.parse($('#json-input').val());
-      displayObjectDom($('.results'))(objToDisplay, "root");
+      renderInteractiveJSON($('.results'))(objToDisplay, "root");
       addBracketPairListeners();
-    })
-    // displayObjectDom()(exampleObj2);
-
+    });
 });

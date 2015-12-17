@@ -17,5 +17,6 @@ This program is intended as a tool to help students learn to navigate nested dat
 
 #### Refactor
 
+- Add error handling for incorrect input/invalid JSON.
 - Refactor so that inidividual lines of code are nested inside of divs for easier navigation
 - **Bug fix**: Commas display after the last element in nested objects/arrays.
