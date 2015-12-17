@@ -186,7 +186,7 @@ var addValueListeners = function() {
       });
     } else {
       var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
-      var string = "data" + key 
+      var string = "data" + key;
     }
     $('#output').text(string);
   });
