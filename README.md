@@ -2,6 +2,8 @@
 
 This program is intended as a tool to help students learn to navigate nested data structures.
 
+#### [Try it out!](http://annarankin.github.io/json-navigator/)
+
 ### Features
 
 1. User can input valid JSON and see a prettily formatted version in their browser.
