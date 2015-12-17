@@ -46,3 +46,11 @@ span.value:hover {
   border: 1px solid green;
   background: greenyellow;
 }
+
+.information {
+  background-color: #000;
+  
+}
+.information p {
+  color: #fff;
+}

@@ -168,7 +168,7 @@ var addValueListeners = function() {
     var classNames = Array.prototype.map.call($keyNameDivs, function(div) {
       return $(div).attr('class');
     });
-  
+
     if (classNames.length > 1) {
       var string = "data" + classNames.reverse().reduce(function(prev, curr, idx) {
         if (idx === 1) {
@@ -188,7 +188,7 @@ var addValueListeners = function() {
       var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
       var string = "data" + key 
     }
-    console.log(string);
+    $('#output').text(string);
   });
 };
 
