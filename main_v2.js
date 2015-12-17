@@ -217,12 +217,16 @@ var getPathToValue = function(event) {
   displayMsg("Copied to clipboard!");
 };
 
-
+var timerId; 
 var displayMsg = function(msg) {
+  if (timerId) {
+    window.clearInterval(timerId);
+  }
   var $notice = $('#notice');
   $notice.text(msg);
   $notice.fadeIn(200);
-  var timerId = window.setTimeout(function() {
+  // Global timerId - clear it
+  timerId = window.setTimeout(function() {
     $notice.fadeOut(200);
   }, 2000);
 };
