@@ -39,6 +39,7 @@ span.value:hover {
   width: 800px;
   height: 500px;
   overflow:scroll;
+  white-space: nowrap;
 }
 .highlighted {
   box-sizing: border-box;
