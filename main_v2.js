@@ -158,7 +158,6 @@ var addBracketPairListeners = function() {
 var addValueListeners = function() {
   var $allValues = $('.value');
   $allValues.on('mouseover', function(event) {
-    console.log(event.target);
     // find the parents of the event target that are divs
     var $valueParents = $(event.target).parents('div');
     // find where the div with a class of "root" is located in the returned list
@@ -169,23 +168,27 @@ var addValueListeners = function() {
     var classNames = Array.prototype.map.call($keyNameDivs, function(div) {
       return $(div).attr('class');
     });
-    var string = classNames.reverse().reduce(function(prev, curr, idx) {
-      if (idx === 1) {
-        console.log("HI")
-        if (isNaN(parseInt(prev.toString()))) {
-          prev = "." + prev;
-        } else {
-          prev = "[" + prev + "]";
+  
+    if (classNames.length > 1) {
+      var string = "data" + classNames.reverse().reduce(function(prev, curr, idx) {
+        if (idx === 1) {
+          if (isNaN(parseInt(prev.toString()))) {
+            prev = "." + prev;
+          } else {
+            prev = "[" + prev + "]";
+          }
         }
-      }
-
-      // account for array indices
-      if (isNaN(parseInt(curr.toString()))) {
-        return prev + "." + curr;
-      }
-      return prev + "[" + curr + "]";
-    });
-    console.log("data" + string);
+        // account for array indices
+        if (isNaN(parseInt(curr.toString()))) {
+          return prev + "." + curr;
+        }
+        return prev + "[" + curr + "]";
+      });
+    } else {
+      var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
+      var string = "data" + key 
+    }
+    console.log(string);
   });
 };
 
