@@ -2,7 +2,7 @@
 // Function 
 var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
   var parent = parent || "root";
-  var offset = offset || 20;
+  var offset = offset || 40;
   var top = top || 10;
   var bracketCounter = bracketCounter || 0;
   var lineCounter = 1;
@@ -22,7 +22,7 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
     if (typeof obj != "object") {
       var $displayParagraph = $('<p>');
 
-      $displayParagraph.html("<span class='key'>" + parent + '</span>: <span class="value">' + obj + '</span>');
+      $displayParagraph.html("<span class='key'>" + parent + '</span>: <span class="value">' + obj + '</span>,');
       $displayParagraph.css({
         position: "absolute"
       });
@@ -54,13 +54,14 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
       offset += lineHeight;
       top += lineHeight;
 
+      // Recursively go through every element in array, call self for each
       obj.forEach(function(el, idx) {
         displayObject(el, idx);
       });
 
       var $endBracket = $('<p>');
       if (bracketId != 0) {
-        $endBracket.html('<span class="bracket ' + bracketId + '">],</span>');
+        $endBracket.html('<span class="bracket ' + bracketId + '">]</span>,');
       } else {
         $endBracket.html('<span class="bracket ' + bracketId + '">]</span>');
       }
@@ -103,7 +104,7 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
       });
       var $endBracket = $('<p>');
       if (bracketId != 0) {
-        $endBracket.html('<span class="bracket ' + bracketId + '">},</span>');
+        $endBracket.html('<span class="bracket ' + bracketId + '">}</span>,');
       } else {
         $endBracket.html('<span class="bracket ' + bracketId + '">}</span>');
       }

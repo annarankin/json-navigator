@@ -31,9 +31,6 @@ span.value:hover {
   font-weight: bold;
   color: green;
 }
-.bracket:hover {
-  background: greenyellow;
-}
 .line-num {
   color: #777;
 }
@@ -42,4 +39,9 @@ span.value:hover {
   width: 800px;
   height: 500px;
   overflow:scroll;
+}
+.highlighted {
+  box-sizing: border-box;
+  border: 1px solid green;
+  background: greenyellow;
 }
