@@ -6,7 +6,6 @@ This program is intended as a tool to help students learn to navigate nested dat
 
 1. User can input valid JSON and see a prettily formatted version in their browser.
 1. User can hover over keys and values and see them highlighted in different colors.
-1. User can hover over 
 
 ### To Do
 
