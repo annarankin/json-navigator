@@ -144,12 +144,12 @@ var addBracketPairListeners = function() {
   $allBrackets.each(function(idx, bracket) {
     $(bracket).on('mouseenter', function(event) {
       var bracketClass = $(event.target).attr("class").split(' ')[1]
-      var $matchingBrackets = $("." + bracketClass);
+      var $matchingBrackets = $(".bracket." + bracketClass);
       $matchingBrackets.addClass('highlighted');
     });
     $(bracket).on('mouseleave', function(event) {
       var bracketClass = $(event.target).attr("class").split(' ')[1]
-      var $matchingBrackets = $("." + bracketClass)
+      var $matchingBrackets = $(".bracket." + bracketClass)
       $matchingBrackets.removeClass('highlighted');
     });
   });
@@ -157,7 +157,7 @@ var addBracketPairListeners = function() {
 
 var addValueListeners = function() {
   var $allValues = $('.value');
-  $allValues.on('mouseover', function(event) {
+  $allValues.on('click', function(event) {
     // find the parents of the event target that are divs
     var $valueParents = $(event.target).parents('div');
     // find where the div with a class of "root" is located in the returned list
@@ -170,15 +170,7 @@ var addValueListeners = function() {
     });
 
     if (classNames.length > 1) {
-      var string = "data" + classNames.reverse().reduce(function(prev, curr, idx) {
-        if (idx === 1) {
-          if (isNaN(parseInt(prev.toString()))) {
-            prev = "." + prev;
-          } else {
-            prev = "[" + prev + "]";
-          }
-        }
-        // account for array indices
+      var string = classNames.reverse().reduce(function(prev, curr, idx) {
         if (isNaN(parseInt(curr.toString()))) {
           return prev + "." + curr;
         }
@@ -186,17 +178,39 @@ var addValueListeners = function() {
       });
     } else {
       var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
-      var string = "data" + key;
+      var string = key;
     }
     $('#output').text(string);
+    displayMsg("Copied to clipboard!");
   });
+};
+
+var displayMsg = function(msg) {
+  var $notice = $('#notice');
+  $notice.text(msg);
+  $notice.fadeIn(200);
+  var timerId = window.setTimeout(function() {
+    $notice.fadeOut(200);
+  }, 2000);
 };
 
 $(document).ready(function() {
   $('button').on('click', function(e) {
-    objToDisplay = JSON.parse($('#json-input').val());
-    renderInteractiveJSON($('.results'))(objToDisplay, "root");
+    var objToDisplay = JSON.parse($('#json-input').val());
+    renderInteractiveJSON($('.results'))(objToDisplay, "data");
     addBracketPairListeners();
     addValueListeners();
   });
+  var objToDisplay = JSON.parse($('#json-input').val());
+  renderInteractiveJSON($('.results'))(objToDisplay, "data");
+  addBracketPairListeners();
+  addValueListeners();
+
+  var clipboard = new Clipboard('.value', {
+    text: function(trigger) {
+      return $('#output').text();
+    }
+  })
+
+
 });

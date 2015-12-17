@@ -4,18 +4,29 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
   <script src="main_v2.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <textarea name="json-input" id="json-input" cols="100" rows="10">{"coord":{"lon":-0.13,"lat":51.51},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"}],"base":"cmc stations","main":{"temp":286.64,"pressure":1020,"humidity":82,"temp_min":285.15,"temp_max":288.15},"wind":{"speed":4.1,"deg":210},"clouds":{"all":75},"dt":1450302600,"sys":{"type":1,"id":5091,"message":0.0051,"country":"GB","sunrise":1450252856,"sunset":1450281112},"id":2643743,"name":"London","cod":200}</textarea><br>
-  <button>TRANSFORM</button>
-  <div class="notice">
+  <div class="wrapper">
+    <div class="input">
+      
+      <h1>JSON Navigator</h1>
+      <p>This is a tool designed to help students and novice programmers learn to navigate nested data structures - in particular, how to access information from a parsed JSON object returned from an API call.</p>
+      <p>Try clicking on the <span class="red">values</span> in the example to the right - you should see the chain of index values/properties needed to access this data displayed in the black text box below.</p>
+
+      <textarea name="json-input" id="json-input" rows="10">{"example": ["thing", "another thing"], "wow": "so cool."}</textarea>
+      <button>Render Interactive JSON</button>
+    </div>
+  
+    <div class="results"></div>
+  </div>
+  <div class="information">
+    <p id="output"></p>
+    <p id="notice"></p>
   </div>
 
-  <div class="results"></div>
-  <div class="information"><p id="output"></p></div>
-    
 </body>
 </html>
