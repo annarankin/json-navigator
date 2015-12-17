@@ -1,4 +1,3 @@
-
 // Function 
 var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
   var parent = parent || "root";
@@ -11,10 +10,48 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
   var addLineNum = function(lineNum) {
     var $lineNumPTag = $('<p class="line-num">');
     $lineNumPTag.text(lineNum.toString());
-    $lineNumPTag.css({position: "absolute"});
-    $lineNumPTag.offset({top: top, left: 5});
+    $lineNumPTag.css({
+      position: "absolute"
+    });
+    $lineNumPTag.offset({
+      top: top,
+      left: 5
+    });
     $target.append($lineNumPTag);
     return lineNum += 1;
+  };
+  var addNewBracket = function(bracketString, bracketId, parent) {
+
+    var $bracket = $('<p>');
+    // Is bracket a beginning bracket?
+    if (bracketString === "[" || bracketString === "{") {
+      $bracket.html("<span class='key'>" + parent + '</span>: <span class="bracket ' + bracketId + '">' + bracketString + '</span>');
+      // If it's the last, indent it closer to the left
+      $bracket.offset({
+        top: top,
+        left: offset
+      });
+      // Is bracket an ending bracket?
+    } else {
+      // Is it not the last bracket? 
+      if (bracketId != 0) {
+        $bracket.html('<span class="bracket ' + bracketId + '">' + bracketString + '</span>,');
+      // Is it the last bracket?
+      } else {
+        $bracket.html('<span class="bracket ' + bracketId + '">' + bracketString + '</span>');
+      }
+      // If it's the last, indent it closer to the left
+      $bracket.offset({
+        top: top,
+        left: offset - 20
+      });
+    }
+    $bracket.css({
+      position: "absolute"
+    });
+    $target.append($bracket);
+    lineCounter = addLineNum(lineCounter);
+
   };
 
   var displayObject = function(obj, parent) {
@@ -32,25 +69,14 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
       });
       $target.append($displayParagraph);
       lineCounter = addLineNum(lineCounter);
-    // Otherwise, if it's an array, indent and loop through it, 
-    // displaying everything inside. 
+      // Otherwise, if it's an array, indent and loop through it, 
+      // displaying everything inside. 
     } else if (Array.isArray(obj)) {
 
       var bracketId = bracketCounter;
       bracketCounter++;
 
-      var $beginBracket = $('<p>');
-      $beginBracket.html("<span class='key'>" + parent + '</span>: <span class="bracket ' + bracketId + '">[</span>');
-      $beginBracket.css({
-        position: "absolute"
-      });
-      $beginBracket.offset({
-        top: top,
-        left: offset
-      });
-      $target.append($beginBracket);
-      lineCounter = addLineNum(lineCounter);
-
+      addNewBracket("[", bracketId, parent);
       offset += lineHeight;
       top += lineHeight;
 
@@ -59,41 +85,15 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
         displayObject(el, idx);
       });
 
-      var $endBracket = $('<p>');
-      if (bracketId != 0) {
-        $endBracket.html('<span class="bracket ' + bracketId + '">]</span>,');
-      } else {
-        $endBracket.html('<span class="bracket ' + bracketId + '">]</span>');
-      }
-      $endBracket.css({
-        position: "absolute"
-      });
-      $endBracket.offset({
-        top: top,
-        left: offset - lineHeight
-      });
-
-      $target.append($endBracket);
+      addNewBracket("]", bracketId, parent);
       offset -= lineHeight;
-      lineCounter = addLineNum(lineCounter);
 
-    // If obj is actually a JS object, display each key-value pair.
+      // If obj is actually a JS object, display each key-value pair.
     } else if (typeof obj === "object") {
       var bracketId = bracketCounter;
       bracketCounter++;
 
-      var $beginBracket = $('<p>');
-      $beginBracket.html("<span class='key'>" + parent + '</span>: <span class="bracket ' + bracketId + '">{</span>');
-      $beginBracket.css({
-        position: "absolute"
-      });
-      $beginBracket.offset({
-        top: top,
-        left: offset
-      });
-      $target.append($beginBracket);
-      lineCounter = addLineNum(lineCounter);
-
+      addNewBracket("{", bracketId, parent);
       offset += lineHeight;
       top += lineHeight;
 
@@ -102,23 +102,10 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
       keys.forEach(function(key) {
         displayObject(obj[key], key);
       });
-      var $endBracket = $('<p>');
-      if (bracketId != 0) {
-        $endBracket.html('<span class="bracket ' + bracketId + '">}</span>,');
-      } else {
-        $endBracket.html('<span class="bracket ' + bracketId + '">}</span>');
-      }
-      $endBracket.css({
-        position: "absolute"
-      });
-      $endBracket.offset({
-        top: top,
-        left: offset - lineHeight
-      });
-      $target.append($endBracket);
-      lineCounter = addLineNum(lineCounter);
 
+      addNewBracket("}", bracketId, parent);
       offset -= lineHeight;
+
     }
     top += lineHeight;
   };
@@ -128,13 +115,13 @@ var displayObjectDom = function displayObjectDom($target, parent, offset, top) {
 var addBracketPairListeners = function() {
   var $allBrackets = $(".bracket");
   $allBrackets.each(function(idx, bracket) {
-    $(bracket).on('mouseenter', function(event){
+    $(bracket).on('mouseenter', function(event) {
       var bracketClass = $(event.target).attr("class").split(' ')[1]
       var $matchingBrackets = $("." + bracketClass);
       $matchingBrackets.addClass('highlighted');
       console.log($matchingBrackets);
     });
-    $(bracket).on('mouseleave', function(event){
+    $(bracket).on('mouseleave', function(event) {
       var bracketClass = $(event.target).attr("class").split(' ')[1]
       var $matchingBrackets = $("." + bracketClass)
       $matchingBrackets.removeClass('highlighted');
@@ -144,10 +131,10 @@ var addBracketPairListeners = function() {
 
 $(document).ready(function() {
   $('button').on('click', function() {
-    objToDisplay = JSON.parse($('#json-input').val());
-    displayObjectDom($('.results'))(objToDisplay, "root");
-    addBracketPairListeners();
-  })
-  // displayObjectDom()(exampleObj2);
+      objToDisplay = JSON.parse($('#json-input').val());
+      displayObjectDom($('.results'))(objToDisplay, "root");
+      addBracketPairListeners();
+    })
+    // displayObjectDom()(exampleObj2);
 
 });
