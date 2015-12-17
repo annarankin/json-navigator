@@ -32,7 +32,6 @@ var renderInteractiveJSON = function renderInteractiveJSON($target, parentKey, o
     if (bracketString === "[" || bracketString === "{") {
       parentKey = parentKey || '0';
       $bracket.html("<span class='key'>" + parentKey + '</span>: <span class="bracket ' + bracketId + '">' + bracketString + '</span>');
-      // If it's the last, indent it closer to the left
       $bracket.offset({
         top: top,
         left: offset
@@ -155,35 +154,69 @@ var addBracketPairListeners = function() {
   });
 };
 
+
+// Add click listeners to all values
 var addValueListeners = function() {
   var $allValues = $('.value');
-  $allValues.on('click', function(event) {
-    // find the parents of the event target that are divs
-    var $valueParents = $(event.target).parents('div');
-    // find where the div with a class of "root" is located in the returned list
-    var resultDivIdx = $valueParents.index('.result') - 1;
-    // slice the array to remove all dom nodes from the root on up to the body
-    var $keyNameDivs = $valueParents.slice(0, resultDivIdx);
-    // reduce this array into a string containing the names of all classes.
-    var classNames = Array.prototype.map.call($keyNameDivs, function(div) {
-      return $(div).attr('class');
-    });
-
-    if (classNames.length > 1) {
-      var string = classNames.reverse().reduce(function(prev, curr, idx) {
-        if (isNaN(parseInt(curr.toString()))) {
-          return prev + "." + curr;
-        }
-        return prev + "[" + curr + "]";
-      });
-    } else {
-      var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
-      var string = key;
-    }
-    $('#output').text(string);
-    displayMsg("Copied to clipboard!");
-  });
+  var $allKeys = $('.key');
+  $allValues.on('click', getPathToValue);
+  $allKeys.on('click', getPathToValue);
 };
+
+
+// Generate a string path to a value - ex data.example[0][1].name
+var getPathToValue = function(event) {
+  // Does the user want Ruby code or JS code?
+  var outputFormat = $('input:checked').val();
+  // find the parents of the event target that are divs
+  var $valueParents = $(event.target).parents('div');
+  // find where the div with a class of "root" is located in the returned list
+  var resultDivIdx = $valueParents.index('.result') - 1;
+  // slice the array to remove all dom nodes from the root on up to the body
+  var $keyNameDivs = $valueParents.slice(0, resultDivIdx);
+  // reduce this array into a string containing the names of all classes.
+  var classNames = Array.prototype.map.call($keyNameDivs, function(div) {
+    return $(div).attr('class');
+  });
+
+  switch (outputFormat) {
+    case "render-js":
+      if (classNames.length > 1) {
+        var string = classNames.reverse().reduce(function(prev, curr, idx) {
+          if (isNaN(parseInt(curr.toString()))) {
+            return prev + "." + curr;
+          }
+          return prev + "[" + curr + "]";
+        });
+      } else {
+        var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
+        var string = key;
+      }
+
+      break;
+    case "render-ruby":
+      if (classNames.length > 1) {
+        var string = classNames.reverse().reduce(function(prev, curr, idx) {
+          if (isNaN(parseInt(curr.toString()))) {
+            return prev + '["' + curr + '"]';
+          }
+          return prev + "[" + curr + "]";
+        });
+      } else {
+        var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
+        var string = key;
+      }
+
+      break;
+    default:
+      return "I don't know what to do with that.";
+  }
+
+
+  $('#output').text(string);
+  displayMsg("Copied to clipboard!");
+};
+
 
 var displayMsg = function(msg) {
   var $notice = $('#notice');
@@ -195,10 +228,12 @@ var displayMsg = function(msg) {
 };
 
 var renderInput = function(e) {
+  if (e) {
+    e.preventDefault();
+  }
   try {
     var objToDisplay = JSON.parse($('#json-input').val());
-  }
-  catch (e) {
+  } catch (e) {
     displayMsg("Uh-oh! Invalid input: " + e);
   }
   renderInteractiveJSON($('.results'))(objToDisplay, "data");
@@ -209,7 +244,7 @@ var renderInput = function(e) {
 $(document).ready(function() {
   // Render JSON when button is clickt
   $('button').on('click', renderInput)
-  // Start off by rendering out example JSON
+    // Start off by rendering out example JSON
   renderInput();
 
   // Copy code to user's clipboard when values are clicked

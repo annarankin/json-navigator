@@ -15,21 +15,23 @@
       
       <h1>JSON Navigator</h1>
       <p>This is a tool designed to help students and novice programmers learn to navigate nested data structures - in particular, how to access information from a parsed JSON object returned from an API call.</p>
-      <p>Try clicking on the <span class="red">values</span> in the example to the right - you should see the chain of index values/properties needed to access this data displayed in the black text box below.</p>
+      <p>Try clicking on the <span class="blue">keys</span> and <span class="red">values</span> in the example to the right - you should see the chain of index values/properties needed to access this data displayed in the black text box below.</p>
 
-      <radiogroup id="output-format"> 
+      <div id="output-format"> 
         <div>
-          <label for="render-js">Render output as JS</label>
-          <input name="output-format" type="radio" id="render-js" checked>
+          <label for="render-js">Render path to value as JS</label>
+          <input name="output-format" type="radio" id="render-js" value="render-js" checked>
         </div>
         <div>
-          <label for="render-ruby">Render output as Ruby</label>
-          <input name="output-format" type="radio" id="render-ruby">
+          <label for="render-ruby">Render path to value as Ruby</label>
+          <input name="output-format" type="radio" id="render-ruby" value="render-ruby">
         </div>
-      </radiogroup> 
+      </div> 
 
-      <textarea name="json-input" id="json-input" rows="5">{"example": ["thing", "another thing"], "wow": "so cool."}</textarea>
-      <button>Render Interactive JSON</button>
+      <form>
+        <textarea name="json-input" id="json-input" rows="5">{"example_array": ["thing", "another thing", {"name": "Mr. Bojangles", "fave_foods": ["cheese", "waffles", "syrup"]} ], "wow": "so cool."}</textarea>
+        <button>Render Interactive JSON</button>
+      </form>
     </div>
   
     <div class="results"></div>

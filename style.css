@@ -38,6 +38,7 @@ span {
 
 span.key {
   font-weight: bold;
+  cursor:pointer;
   color: blue;
 }
 span.value {
@@ -99,7 +100,11 @@ span.value:hover {
   background-color: salmon;
   padding: 0.125em;
 }
-
+.blue {
+  color: blue;
+  background-color: aqua;
+  padding: 0.125em;
+}
 #output-format {
   display: flex;
 }
