@@ -203,7 +203,7 @@ var getPathToValue = function(event) {
           return prev + "[" + curr + "]";
         });
       } else {
-        var key = isNaN(parseInt(classNames[0].toString())) ? "." + classNames[0] : "[" + classNames[0] + "]";
+        var key = isNaN(parseInt(classNames[0].toString())) ? '["' + classNames[0] + '"]' : "[" + classNames[0] + "]";
         var string = key;
       }
 
