@@ -116,6 +116,28 @@ span.value:hover {
   margin: 0.5em;
   padding: 0.5em;
 }
+
+.github-banner {
+  position:fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  height: 130px;
+  width: 120px;
+}
+.gh-link {
+  height: 110px;
+  width: 190px;
+  position:absolute;
+  transform: rotate(37deg);
+  top: -45px;
+  background-color:black;
+  background-image: url('http://i.imgur.com/bS27ZWv.png');
+  background-size: 80px;
+  background-position:center bottom;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.5);
+}
 /* To do: Media querz */
 
 
