@@ -1,5 +1,6 @@
 // Function 
 var renderInteractiveJSON = function renderInteractiveJSON($target, parentKey, offset, top) {
+
   var parentKey = parentKey || "root";
   var offset = offset || 40;
   var top = top || 10;
@@ -10,7 +11,8 @@ var renderInteractiveJSON = function renderInteractiveJSON($target, parentKey, o
   var $lineNumbers = $('<div class="line-numbers">');
   var lineHeight = 25;
 
-  // Internal functions
+  // ------ Internal functions -------
+  
   var addLineNum = function(lineNum) {
     var $lineNumPTag = $('<p class="line-num">');
     $lineNumPTag.text(lineNum.toString());
@@ -60,7 +62,8 @@ var renderInteractiveJSON = function renderInteractiveJSON($target, parentKey, o
 
   };
 
-  // Function to be returned on invocation of renderInteractiveJSON
+// ------ Function to be returned on invocation of renderInteractiveJSON ------
+
   var displayObject = function(obj, parentKey, $parentDiv) {
 
     var $parentDiv = $parentDiv || $rootDiv;
