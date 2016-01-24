@@ -143,6 +143,8 @@ var renderInput = function() {
   }
   $('.results').empty();
   renderInteractiveJSON($('.results'))(objToDisplay, "data");
+  addValueListeners();
+  
 };
 
 var timerId;
@@ -230,7 +232,6 @@ $(document).ready(function() {
   $('button').on('click', renderInput)
     // Start off by rendering out example JSON
   renderInput();
-  addValueListeners();
   // Copy code to user's clipboard when values are clicked
   // var clipboard = new Clipboard('.value', {
   //   text: function(trigger) {
