@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>JSON Navigator</title>
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
-  <script src="main_v2.js"></script>
+  <script src="jquery/dist/jquery.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script> -->
+  <script src="main_v4.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -34,10 +34,8 @@
         </div>
       </div> 
 
-      <form>
         <textarea name="json-input" id="json-input" rows="5">{"example_array": ["thing", "another thing", {"name": "Mr. Bojangles", "fave_foods": ["cheese", "waffles", "syrup"]} ], "wow": "so cool."}</textarea>
         <button>Render Interactive JSON</button>
-      </form>
     </div>
   
     <div class="results"></div>

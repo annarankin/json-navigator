@@ -1,3 +1,6 @@
+/* This CSS is super messy. */
+/* To-Do: CLEAN IT UP */
+
 body {
   font-family: Courier;
   margin: 0;
@@ -28,9 +31,6 @@ body {
   width: 100%;
 
 }
-p {
-  display: inline-block;
-}
 
 span {
   padding: 0.25em;
@@ -52,7 +52,7 @@ span.key:hover {
 span.value:hover {
   background: salmon;
 }
-.bracket {
+[class^=bracket] {
   font-weight: bold;
   color: green;
 }
@@ -71,7 +71,9 @@ span.value:hover {
   border: 1px solid green;
   background: greenyellow;
 }
-
+.collapsed {
+  display: none;
+}
 .information {
   background-color: #000;
   position: fixed;
@@ -138,7 +140,58 @@ span.value:hover {
   background-repeat: no-repeat;
   box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.5);
 }
+.minus {
+  border: 1px solid #AAE;
+  box-sizing:border-box;
+  border-radius: 2px;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  background-color: #EEF;
+  position: absolute;
+  left: -1em;
+}
+.minus::after, .minus::before {
+  content: "";
+  box-sizing:border-box;
+  width: 70%;
+  border: 1px solid blue;
+  position: absolute;
+  top: 45%;
+  left: 15%;
+  transition: transform 0.25s
+}
+.plus .minus::before {
+  transform: rotate(180deg);
+}
+.plus .minus::after {
+  transform: rotate(90deg);  
+}
+.plus [class^=bracket]::after {
+  content: "...";
+}
+
+.results > div {
+  position: absolute;
+  left: 3em;
+}
+.results .line-numbers {
+  position:absolute;
+  list-style-type: none;
+  left: 0.5em;
+}
+p {
+  margin: 0.5em 0;
+}
+.line-numbers li {
+  margin: 0.5em 0;
+  text-align: center;
+  color: #777;
+}
 /* To do: Media querz */
 
-
+.results p:last-child {
+  position:relative;
+  left: -1.5em;
+}
 
