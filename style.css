@@ -196,7 +196,7 @@ p {
   position:relative;
   left: -1.5em;
 }
-.line-numbers li.level-root {
+/*.line-numbers li.level-root {
    border-color: red;
 }
 .line-numbers li.level-first {
@@ -220,4 +220,4 @@ p {
 .line-numbers li.level-inner3 {
    border-color: purple;
 }
-
+*/
