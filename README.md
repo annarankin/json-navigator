@@ -9,7 +9,7 @@ This program is intended as a tool to help students learn to navigate nested dat
 1. User can input valid JSON and see a prettily formatted version in their browser.
 1. User can hover over keys and values and see them highlighted in different colors.
 1. User can hover over a value and its access path, or a combination of index numbers (e.g. `[0]`) and keys (e.g. `.weather`), will be displayed and copied to their clipboard.
-1. User can view value's access path in either Ruby or JavaScript.
+1. User can view value's access path in either Ruby or JavaScript syntax.
 
 ### To Do
 
