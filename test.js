@@ -7,7 +7,7 @@ $(function() {
   window.setTimeout(function() {
 
     $divs.each(function(idx, el){ 
-      var idName = $(el).data('id')
+      var idName = 'level-' + $(el).data('id')
       var pTagsUntilNextDiv = $(el).children().eq(0).nextUntil('div').length + 1 ;
       var totalLines = $(el).find('p').length;
       // Find out when you should start giving classes to line nums

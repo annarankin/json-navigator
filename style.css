@@ -184,14 +184,40 @@ p {
   margin: 0.5em 0;
 }
 .line-numbers li {
-  margin: 0.5em 0;
+  box-sizing: border-box;
+  margin: 0.28em 0;
   text-align: center;
   color: #777;
+  border: 2px solid transparent;
 }
 /* To do: Media querz */
 
 .results p:last-child {
   position:relative;
   left: -1.5em;
+}
+.line-numbers li.level-root {
+   border-color: red;
+}
+.line-numbers li.level-first {
+   border-color: orange;
+}
+.line-numbers li.level-second {
+   border-color: yellow;
+}
+.line-numbers li.level-third {
+   border-color: yellowgreen;
+}
+.line-numbers li.level-fourth {
+   border-color: green;
+}
+.line-numbers li.level-fifth {
+   border-color: deepskyblue;
+}
+.line-numbers li.level-inner2 {
+   border-color: blue;
+}
+.line-numbers li.level-inner3 {
+   border-color: purple;
 }
 

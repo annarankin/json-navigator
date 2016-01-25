@@ -24,7 +24,7 @@ var renderInteractiveJSON = function($target) {
     return $childDiv;
   };
 
-  var $keyValParagraph = function(key, value, liClass, bracketCounter) {
+  var $keyValParagraph = function(key, value, bracketCounter) {
     // Create the new paragraph that will display info
     var $displayParagraph = $('<p>');
 
@@ -50,14 +50,21 @@ var renderInteractiveJSON = function($target) {
     var $minus = $displayParagraph.find('[class^=minus]');
     // --- Logic to collapse sections of the data structure ---
     $minus.on('click', function() {
-      console.log(key);
-      $(this).parent('p').toggleClass('plus');
-      var $divToHide = $(this).parent('p').next('div').eq(0);
-      $divToHide.toggleClass('collapsed');
-      // $('.line-numbers .' + liClass).toggleClass('collapsed');
+      var $divToToggle = $(this).parent('p').next('div').eq(0);
+      // check to see if 'plus' is has'd
+      if ($(this).parent('p').hasClass('plus')) {
+        $(this).parent('p').removeClass('plus');      
+        $divToToggle.removeClass('collapsed');
+        $('.line-numbers li.level-' + key).removeClass('collapsed'); 
+      } else {
+        $(this).parent('p').addClass('plus');      
+        $divToToggle.addClass('collapsed');
+        $('.line-numbers li.level-' + key).addClass('collapsed');
+      }
+      // debugger
+      console.log($divToToggle[0]);
     });
     var $lineNumberPTag = $('<li>' + lineNumber + '</li>');
-    $lineNumberPTag.addClass(liClass);
     $lineNums.append($lineNumberPTag);
     lineNumber++;
 
@@ -65,23 +72,22 @@ var renderInteractiveJSON = function($target) {
   };
 
   // Define function that will recursively render a JS object into results div
-  var parseAndRenderObject = function(obj, firstKey, $parentDiv, liClass) {
+  var parseAndRenderObject = function(obj, firstKey, $parentDiv) {
     // The div that'll contain this one
     var $parentDiv = $parentDiv || $rootDiv;
     var parentKey = firstKey || '0';
-    var liClass = liClass || parentKey;
-    // var left = 0 || left;
+
     // If the "obj" (value of the key we're evaluating) is not an object, just display it as a key/value pair.
     if (typeof obj != "object") {
       // Create the key:"value"/key:value string
-      var $displayParagraph = $keyValParagraph(parentKey, obj, liClass)[0];
+      var $displayParagraph = $keyValParagraph(parentKey, obj)[0];
       $parentDiv.append($displayParagraph);
 
       // Otherwise, if it's an array, indent and loop through it, 
       // displaying everything inside. 
     } else if (Array.isArray(obj)) {
 
-      var paragraphInfo = $keyValParagraph(parentKey, '[', liClass, bracketCounter);
+      var paragraphInfo = $keyValParagraph(parentKey, '[', bracketCounter);
       var $displayParagraph = paragraphInfo[0];
       var thisBracket = paragraphInfo[1]
       bracketCounter++;
@@ -96,7 +102,7 @@ var renderInteractiveJSON = function($target) {
       });
       leftOffset -= indent;
       Promise.all(promises).then(function() {
-          var $displayParagraph = $keyValParagraph(null, ']', liClass, thisBracket)[0];
+          var $displayParagraph = $keyValParagraph(null, ']', thisBracket)[0];
           $childDiv.append($displayParagraph);
         })
         // If obj is actually a JS object, display each key-value pair.
@@ -104,12 +110,12 @@ var renderInteractiveJSON = function($target) {
       // Get all keys for object
       var keys = Object.keys(obj);
       // Add beginning key & bracket
-      var paragraphInfo = $keyValParagraph(parentKey, '{', liClass, bracketCounter);
+      var paragraphInfo = $keyValParagraph(parentKey, '{', bracketCounter);
       var $displayParagraph = paragraphInfo[0];
       var thisBracket = paragraphInfo[1];
       bracketCounter++;
-
       $parentDiv.append($displayParagraph);
+
       // Increase indentation & apply to child div
       leftOffset += indent;
       var $childDiv = createChildDiv(parentKey, leftOffset);
@@ -123,7 +129,7 @@ var renderInteractiveJSON = function($target) {
 
       Promise.all(keys).then(function() {
         // Add bracket to final 
-        var $displayParagraph = $keyValParagraph(null, '}', liClass, thisBracket)[0];
+        var $displayParagraph = $keyValParagraph(null, '}', thisBracket)[0];
         $childDiv.append($displayParagraph);
       })
     }
@@ -142,9 +148,8 @@ var renderInput = function() {
     return displayMsg("Uh-oh! Invalid input: " + e);
   }
   $('.results').empty();
-  renderInteractiveJSON($('.results'))(objToDisplay, "data");
+  renderInteractiveJSON($('.results'))(objToDisplay, "root");
   addValueListeners();
-  
 };
 
 var timerId;
