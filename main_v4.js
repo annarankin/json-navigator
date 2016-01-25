@@ -233,9 +233,9 @@ $(document).ready(function() {
     // Start off by rendering out example JSON
   renderInput();
   // Copy code to user's clipboard when values are clicked
-  // var clipboard = new Clipboard('.value', {
-  //   text: function(trigger) {
-  //     return $('#output').text();
-  //   }
-  // })
+  var clipboard = new Clipboard('.value', {
+    text: function(trigger) {
+      return $('#output').text();
+    }
+  })
 });
